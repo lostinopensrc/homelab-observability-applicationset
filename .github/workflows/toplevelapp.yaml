@@ -1,0 +1,34 @@
+name: Deploy Homelab Observability App
+
+on:
+  workflow_dispatch:
+  
+jobs:
+
+  Create-Repository:
+    runs-on: homelab-observe-appset-runner
+
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Create Repository
+      run: |
+        export KUBECONFIG=$HOME/.kube/config
+        kubectl apply -f repository/homelab-observability-git-repo.yaml
+  
+  Deploy-Top-Level:
+    needs: [Create-Repository]
+
+    runs-on: homelab-observe-appset-runner
+
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Apply top level App
+      run: |
+        export KUBECONFIG=$HOME/.kube/config
+        kubectl apply -f top-level-app/TopLevelApplication.yaml

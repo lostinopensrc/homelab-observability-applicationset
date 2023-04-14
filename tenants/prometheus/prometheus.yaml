@@ -1,0 +1,11 @@
+server:
+  persistentVolume:
+    enabled: true
+    storageClass: local-path
+    size: 2Gi
+
+alertmanager:
+  enabled: false
+
+prometheus-pushgateway:
+  enabled: false
